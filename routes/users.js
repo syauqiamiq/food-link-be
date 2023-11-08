@@ -1,9 +1,21 @@
-var express = require('express');
+var express = require("express");
+
 var router = express.Router();
 
+const models = require("../models");
+
+const Company = models.Company;
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get("/", async function (req, res, next) {
+	try {
+		const data = await Company.findAll();
+		res.status(200).json({
+			tes: data,
+		});
+	} catch (error) {
+		res.status(400).json(error);
+	}
 });
 
 module.exports = router;
