@@ -9,17 +9,14 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			this.hasMany(models.UserHasRole);
-			this.belongsTo(models.Company);
 		}
 	}
 	User.init(
 		{
-			id: DataTypes.INTEGER,
-			companyId: DataTypes.INTEGER,
+			company_id: DataTypes.INTEGER,
 			name: DataTypes.STRING,
 			email: DataTypes.STRING,
-			contactNumber: DataTypes.STRING,
+			contact_number: DataTypes.STRING,
 			address: DataTypes.STRING,
 		},
 		{
@@ -27,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "User",
 			paranoid: true,
 			underscored: true,
+			timestamps: false,
 		}
 	);
 	return User;

@@ -9,8 +9,6 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			this.belongsTo(models.User);
-			this.belongsTo(models.Role);
 		}
 	}
 	UserHasRole.init(
@@ -23,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "UserHasRole",
 			paranoid: true,
 			underscored: true,
+			timestamps: false,
 		}
 	);
 	return UserHasRole;

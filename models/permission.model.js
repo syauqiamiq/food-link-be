@@ -9,19 +9,19 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			this.hasMany(models.RoleHasPermission);
 		}
 	}
 	Permission.init(
 		{
 			name: DataTypes.STRING,
-			groupName: DataTypes.STRING,
+			group_name: DataTypes.STRING,
 		},
 		{
 			sequelize,
 			modelName: "Permission",
 			paranoid: true,
 			underscored: true,
+			timestamps: false,
 		}
 	);
 	return Permission;

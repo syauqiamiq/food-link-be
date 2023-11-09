@@ -2,27 +2,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable("users", {
+		await queryInterface.createTable("order_transactions", {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
-			},
-			email: {
-				type: Sequelize.STRING,
-				field: "email",
-				allowNull: false,
-			},
-			password: {
-				type: Sequelize.STRING,
-				field: "password",
-				allowNull: false,
-			},
-			fullName: {
-				type: Sequelize.STRING,
-				field: "full_name",
-				allowNull: false,
 			},
 			companyId: {
 				type: Sequelize.INTEGER,
@@ -35,13 +20,41 @@ module.exports = {
 					key: "id",
 				},
 			},
-			contactNumber: {
+			transactionIdentity: {
 				type: Sequelize.STRING,
-				field: "contact_number",
+				allowNull: false,
+				field: "transaction_identity",
 			},
-			address: {
-				type: Sequelize.TEXT("long"),
-				field: "address",
+			standId: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				field: "stand_id",
+				references: {
+					model: {
+						tableName: "stands",
+					},
+					key: "id",
+				},
+			},
+			userId: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				field: "user_id",
+				references: {
+					model: {
+						tableName: "users",
+					},
+					key: "id",
+				},
+			},
+			paymentStatus: {
+				type: Sequelize.STRING,
+				allowNull: false,
+				field: "payment_status",
+			},
+			standStatus: {
+				type: Sequelize.STRING,
+				field: "stand_status",
 			},
 			createdAt: {
 				allowNull: false,
@@ -60,6 +73,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable("users");
+		await queryInterface.dropTable("order_transactions");
 	},
 };

@@ -14,10 +14,9 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	UserAdmin.init(
 		{
-			id: DataTypes.INTEGER,
 			name: DataTypes.STRING,
 			email: DataTypes.STRING,
-			contactNumber: DataTypes.STRING,
+			contact_number: DataTypes.STRING,
 			address: DataTypes.STRING,
 		},
 		{
@@ -25,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "UserAdmin",
 			paranoid: true,
 			underscored: true,
+			timestamps: false,
 		}
 	);
 	return UserAdmin;

@@ -9,20 +9,19 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			this.belongsTo(models.Permission);
-			this.belongsTo(models.Role);
 		}
 	}
 	RoleHasPermission.init(
 		{
-			roleId: DataTypes.INTEGER,
-			permissionId: DataTypes.INTEGER,
+			role_id: DataTypes.INTEGER,
+			permission_id: DataTypes.INTEGER,
 		},
 		{
 			sequelize,
 			modelName: "RoleHasPermission",
 			paranoid: true,
 			underscored: true,
+			timestamps: false,
 		}
 	);
 	return RoleHasPermission;
