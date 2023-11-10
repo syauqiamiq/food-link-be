@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "OrderItem",
 			paranoid: true,
 			underscored: true,
-			timestamps: false,
 		}
 	);
 	return OrderItem;

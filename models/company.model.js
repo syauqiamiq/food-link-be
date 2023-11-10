@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "Company",
 			paranoid: true,
 			underscored: true,
-			timestamps: false,
 		}
 	);
 	return Company;

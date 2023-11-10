@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "Promo",
 			paranoid: true,
 			underscored: true,
-			timestamps: false,
 		}
 	);
 	return Promo;

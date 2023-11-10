@@ -14,8 +14,9 @@ module.exports = (sequelize, DataTypes) => {
 	User.init(
 		{
 			company_id: DataTypes.INTEGER,
-			name: DataTypes.STRING,
 			email: DataTypes.STRING,
+			password: DataTypes.STRING,
+			full_name: DataTypes.STRING,
 			contact_number: DataTypes.STRING,
 			address: DataTypes.STRING,
 		},
@@ -24,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "User",
 			paranoid: true,
 			underscored: true,
-			timestamps: false,
 		}
 	);
 	return User;

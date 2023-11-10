@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
 			modelName: "UserHasRole",
 			paranoid: true,
 			underscored: true,
-			timestamps: false,
 		}
 	);
 	return UserHasRole;
