@@ -13,6 +13,11 @@ const updateCompanyInput = yup.object().shape({
 	address: yup.string().nullable(),
 });
 
+const assignCompanyAdminInput = yup.object().shape({
+	user_id: yup.number().required(),
+	role_id: yup.number().required(),
+});
+
 const listCompanyResponse = (data) => {
 	let res = [];
 	data.forEach((v) => {
@@ -22,6 +27,11 @@ const listCompanyResponse = (data) => {
 			email: v.email,
 			contact_number: v.contact_number,
 			address: v.address,
+			admin_user_id: v.admin_user_id,
+			user_admin: {
+				full_name: v.User?.full_name,
+				email: v.User?.email,
+			},
 		});
 	});
 	return res;
@@ -34,6 +44,11 @@ const singleCompanyResponse = (data) => {
 		email: data.email,
 		contact_number: data.contact_number,
 		address: data.address,
+		admin_user_id: data.admin_user_id,
+		user_admin: {
+			full_name: data.User?.full_name,
+			email: data.User?.email,
+		},
 	};
 };
 
@@ -57,4 +72,5 @@ module.exports = {
 	singleCompanyResponse,
 	updateCompanyInput,
 	listCompanyUserResponse,
+	assignCompanyAdminInput,
 };

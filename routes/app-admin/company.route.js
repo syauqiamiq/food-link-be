@@ -9,5 +9,9 @@ router.get("/:id", AdminAppCompanyController.showController);
 router.patch("/:id", AdminAppCompanyController.updateController);
 router.delete("/:id", AdminAppCompanyController.deleteController);
 router.get("/:id/user", AdminAppCompanyController.listCompanyUserController);
+router.post(
+	"/:id/assign-admin",
+	AdminAppCompanyController.assignCompanyAdminController
+);
 
 module.exports = router;

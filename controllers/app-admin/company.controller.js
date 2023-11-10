@@ -5,16 +5,23 @@ const {
 	singleCompanyResponse,
 	updateCompanyInput,
 	listCompanyUserResponse,
+	assignCompanyAdminInput,
 } = require("../../dtos/app-admin/company.dto");
 const models = require("../../models");
-const { succesResponse } = require("../../utils/api_formatter.util");
+const {
+	succesResponse,
+	errorResponse,
+} = require("../../utils/api_formatter.util");
 const catchAsync = require("../../utils/catch_async.util");
 
 const CompanyModel = models.Company;
 const UserModel = models.User;
+const UserHasRoleModel = models.UserHasRole;
 
 const indexController = catchAsync(async (req, res) => {
-	const data = await CompanyModel.findAll();
+	const data = await CompanyModel.findAll({
+		include: [UserModel],
+	});
 
 	const response = listCompanyResponse(data);
 	res
@@ -38,6 +45,7 @@ const storeController = catchAsync(async (req, res) => {
 const showController = catchAsync(async (req, res) => {
 	const { id } = req.params;
 	const data = await CompanyModel.findOne({
+		include: [UserModel],
 		where: {
 			id: id,
 		},
@@ -107,6 +115,46 @@ const listCompanyUserController = catchAsync(async (req, res) => {
 		.json(succesResponse(response, httpStatus["200_NAME"], httpStatus.OK));
 });
 
+const assignCompanyAdminController = catchAsync(async (req, res) => {
+	await assignCompanyAdminInput.validate(req.body, { abortEarly: false });
+
+	const { id } = req.params;
+	const { user_id, role_id } = req.body;
+	await models.sequelize.transaction(async (t) => {
+		try {
+			const data = await CompanyModel.update(
+				{ admin_user_id: user_id },
+				{
+					where: {
+						id: id,
+					},
+					transaction: t,
+				}
+			);
+			await UserHasRoleModel.create(
+				{
+					user_id: user_id,
+					role_id: role_id,
+				},
+				{ transaction: t }
+			);
+			return data;
+		} catch (error) {
+			throw error;
+		}
+	});
+
+	res
+		.status(httpStatus.OK)
+		.json(
+			succesResponse(
+				"Successfully assign company admin",
+				httpStatus["200_NAME"],
+				httpStatus.OK
+			)
+		);
+});
+
 module.exports = {
 	indexController,
 	storeController,
@@ -114,4 +162,5 @@ module.exports = {
 	updateController,
 	deleteController,
 	listCompanyUserController,
+	assignCompanyAdminController,
 };
