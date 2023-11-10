@@ -4,7 +4,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-const authRoutes = require("./routes/auth.route");
 const { errorResponse } = require("./utils/api_formatter.util");
 const httpStatus = require("http-status");
 
@@ -18,8 +17,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
+const authRoutes = require("./routes/auth.route");
+const appAdminRoutes = require("./routes/app-admin");
 
 app.use("/auth", authRoutes);
+app.use("/app-admin", appAdminRoutes);
 // Global error handler middleware
 app.use((err, req, res, next) => {
 	console.error(err);

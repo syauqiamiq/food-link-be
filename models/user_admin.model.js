@@ -14,8 +14,9 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	UserAdmin.init(
 		{
-			name: DataTypes.STRING,
 			email: DataTypes.STRING,
+			password: DataTypes.STRING,
+			full_name: DataTypes.STRING,
 			contact_number: DataTypes.STRING,
 			address: DataTypes.STRING,
 		},

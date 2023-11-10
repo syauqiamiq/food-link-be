@@ -11,7 +11,7 @@ const catchAsync = require("../utils/catch_async.util");
 const {
 	loginInput,
 	registerInput,
-	loginResponse,
+	registerResponse,
 } = require("../dtos/auth.dto");
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -88,6 +88,7 @@ const registerController = catchAsync(async (req, res) => {
 	const userData = await UserModel.findOne({
 		where: {
 			email: email,
+			company_id: company_id,
 		},
 	});
 	if (userData) {
@@ -108,7 +109,7 @@ const registerController = catchAsync(async (req, res) => {
 		password: hashedPassword,
 	});
 
-	const response = loginResponse(createdData);
+	const response = registerResponse(createdData);
 	res
 		.status(httpStatus.OK)
 		.json(succesResponse(response, httpStatus["200_NAME"], httpStatus.OK));

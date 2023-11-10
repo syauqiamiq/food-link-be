@@ -14,7 +14,7 @@ const registerInput = yup.object().shape({
 	company_id: yup.number().required(),
 });
 
-const loginResponse = (data) => {
+const registerResponse = (data) => {
 	return {
 		id: data.id,
 		full_name: data.full_name,
@@ -27,5 +27,5 @@ const loginResponse = (data) => {
 module.exports = {
 	loginInput,
 	registerInput,
-	loginResponse,
+	registerResponse,
 };
