@@ -43,6 +43,7 @@ const loginController = catchAsync(async (req, res) => {
 		const token = jwt.sign(
 			{
 				UID: userData.id,
+				CID: userData.company_id,
 			},
 			JWT_SECRET,
 			{

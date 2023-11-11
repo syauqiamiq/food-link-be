@@ -51,6 +51,10 @@ const showController = catchAsync(async (req, res) => {
 		},
 	});
 
+	if (!data) {
+		throw new Error("Record not found");
+	}
+
 	const response = singleCompanyResponse(data);
 	res
 		.status(httpStatus.OK)
@@ -60,6 +64,16 @@ const showController = catchAsync(async (req, res) => {
 const updateController = catchAsync(async (req, res) => {
 	await updateCompanyInput.validate(req.body, { abortEarly: false });
 	const { id } = req.params;
+
+	const result = await CompanyModel.findOne({
+		where: {
+			id: id,
+		},
+	});
+
+	if (!result) {
+		throw new Error("Record not found");
+	}
 
 	await CompanyModel.update(
 		{ ...req.body },
@@ -83,6 +97,16 @@ const updateController = catchAsync(async (req, res) => {
 
 const deleteController = catchAsync(async (req, res) => {
 	const { id } = req.params;
+
+	const result = await CompanyModel.findOne({
+		where: {
+			id: id,
+		},
+	});
+
+	if (!result) {
+		throw new Error("Record not found");
+	}
 
 	await CompanyModel.destroy({
 		where: {
@@ -122,6 +146,16 @@ const assignCompanyAdminController = catchAsync(async (req, res) => {
 	const { user_id, role_id } = req.body;
 	await models.sequelize.transaction(async (t) => {
 		try {
+			const result = await CompanyModel.findOne({
+				where: {
+					id: id,
+				},
+				transaction: t,
+			});
+
+			if (!result) {
+				throw new Error("Record not found");
+			}
 			const data = await CompanyModel.update(
 				{ admin_user_id: user_id },
 				{

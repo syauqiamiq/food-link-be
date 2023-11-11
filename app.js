@@ -19,9 +19,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 const authRoutes = require("./routes/auth.route");
 const appAdminRoutes = require("./routes/app-admin");
+const companyAdminRoutes = require("./routes/company-admin");
 
 app.use("/auth", authRoutes);
 app.use("/app-admin", appAdminRoutes);
+app.use("/company-admin", companyAdminRoutes);
 // Global error handler middleware
 app.use((err, req, res, next) => {
 	console.error(err);
