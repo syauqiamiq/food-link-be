@@ -20,10 +20,12 @@ app.use(express.json());
 const authRoutes = require("./routes/auth.route");
 const appAdminRoutes = require("./routes/app-admin");
 const companyAdminRoutes = require("./routes/company-admin");
+const standAdminRoutes = require("./routes/stand-admin");
 
 app.use("/auth", authRoutes);
 app.use("/app-admin", appAdminRoutes);
 app.use("/company-admin", companyAdminRoutes);
+app.use("/stand-admin", standAdminRoutes);
 // Global error handler middleware
 app.use((err, req, res, next) => {
 	console.error(err);

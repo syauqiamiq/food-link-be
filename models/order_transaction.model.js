@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			this.hasMany(models.OrderItem);
+			this.belongsTo(models.Stand);
+			this.belongsTo(models.User);
 		}
 	}
 	OrderTransaction.init(
