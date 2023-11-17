@@ -10,7 +10,7 @@ services:
     restart: always
     volumes:
       - /home/foodlink-fe:/home/foodlink-fe
-    command: "bash -c 'yarn install && yarn start'"
+    command: "yarn install && yarn start"
     deploy:
       resources:
         limits:
