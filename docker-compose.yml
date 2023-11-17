@@ -1,6 +1,6 @@
 version: "3"
 services:
-  db:
+  app:
     image: "node:18-alpine"
     container_name: "foodlink-api"
     networks:
@@ -8,7 +8,7 @@ services:
     ports:
       - "31111:3000"
     volumes:
-      - /home/foodlink-fe:/home/foodlink-fe
+      - /home/foodlink-be:/home/foodlink-be
 
 networks:
   nginx-network:
