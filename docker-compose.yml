@@ -10,7 +10,6 @@ services:
     restart: always
     volumes:
       - /home/foodlink-fe:/home/foodlink-fe
-    command: "yarn install && yarn start"
     deploy:
       resources:
         limits:
