@@ -8,7 +8,8 @@ services:
     tty: true
     ports:
       - "31111:3000"
-    command: "yarn start"
+    work_dir: /home/foodlink-be
+    command: "bash -c 'yarn start'"
     deploy:
       resources:
         limits:
