@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-    image: "node:18-alpine"
+    image: "node:18-buster"
     container_name: "foodlink-api"
     networks:
       - nginx-network
