@@ -5,6 +5,7 @@ services:
     container_name: "foodlink-api"
     networks:
       - nginx-network
+    tty: true
     ports:
       - "31111:3000"
     volumes:
