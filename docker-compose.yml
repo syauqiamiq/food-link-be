@@ -9,11 +9,6 @@ services:
       - "31111:3000"
     volumes:
       - /home/foodlink-fe:/home/foodlink-fe
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: "1024M"
 
 networks:
   nginx-network:
