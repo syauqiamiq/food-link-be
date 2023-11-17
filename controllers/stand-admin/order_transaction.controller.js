@@ -24,7 +24,9 @@ const indexController = catchAsync(async (req, res) => {
 			admin_user_id: accessData.UID,
 		},
 	});
-	console.log(standData);
+	if (!standData) {
+		throw new Error("Stand not found");
+	}
 	const data = await OrderTransactionModel.findAll({
 		include: [
 			UserModel,
