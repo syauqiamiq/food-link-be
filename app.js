@@ -21,8 +21,12 @@ const authRoutes = require("./routes/auth.route");
 const appAdminRoutes = require("./routes/app-admin");
 const companyAdminRoutes = require("./routes/company-admin");
 const standAdminRoutes = require("./routes/stand-admin");
+const dashboardRoutes = require("./routes/dashboard.route");
+const transactionRoutes = require("./routes/transaction.route");
 
 app.use("/auth", authRoutes);
+app.use("/dashboard", dashboardRoutes);
+app.use("/transaction", transactionRoutes);
 app.use("/app-admin", appAdminRoutes);
 app.use("/company-admin", companyAdminRoutes);
 app.use("/stand-admin", standAdminRoutes);
