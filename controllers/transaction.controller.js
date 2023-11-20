@@ -159,7 +159,7 @@ const midtransCallbackController = catchAsync(async (req, res) => {
 	const { key } = req.query;
 
 	// VALIDATE KEY
-	if (key !== process.env.MIDTRANS_SUCCESS_CALLBACK_KEY) {
+	if (key !== process.env.MIDTRANS_INTERNAL_CALLBACK_KEY) {
 		res
 			.status(httpStatus.INTERNAL_SERVER_ERROR)
 			.json(errorResponse("KEY NOT VALID", httpStatus.INTERNAL_SERVER_ERROR));
