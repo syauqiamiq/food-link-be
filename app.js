@@ -11,12 +11,11 @@ var app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(express.json());
 const authRoutes = require("./routes/auth.route");
 const appAdminRoutes = require("./routes/app-admin");
 const companyAdminRoutes = require("./routes/company-admin");

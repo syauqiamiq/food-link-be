@@ -10,6 +10,10 @@ const storeProductInput = yup.object().shape({
 	stock_quantity: yup.number().required(),
 	discount_price: yup.number().nullable(),
 });
+
+const storeProductImageInput = yup.object().shape({
+	file: yup.string().required(),
+});
 const updateProductInput = yup.object().shape({
 	stand_id: yup.number().nullable(),
 	product_category_id: yup.number().nullable(),
@@ -53,6 +57,7 @@ const singleProductResponse = (data) => {
 };
 
 module.exports = {
+	storeProductImageInput,
 	singleProductResponse,
 	listProductResponse,
 	storeProductInput,

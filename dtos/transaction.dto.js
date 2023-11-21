@@ -6,7 +6,7 @@ const storeTransactionInput = yup.object().shape({
 		yup
 			.object()
 			.shape({
-				product_id: yup.number().required("*Product is required"),
+				product_name: yup.string().required("*Product Name is required"),
 				quantity: yup.number().required("*Quantitiy is required"),
 				price: yup.number().required("*Price is required"),
 			})

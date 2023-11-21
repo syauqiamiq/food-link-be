@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const { v4: uuidv4 } = require("uuid");
 const { Op } = require("sequelize");
+const crypto = require("crypto");
 
 require("dotenv").config();
 const midtransClient = require("midtrans-client");
@@ -50,13 +51,12 @@ const createTransaction = catchAsync(async (req, res) => {
 					{ transaction: t }
 				);
 				// CREATE TRANSACTION ITEM
-
 				let arrayItem = [];
 				validatedInput.order_item.forEach((v) => {
 					arrayItem.push({
 						company_id: accessData.CID,
 						order_transaction_id: createdTransactionData.id,
-						product_id: v.product_id,
+						product_name: v.product_name,
 						quantity: v.quantity,
 						price: v.price,
 					});
@@ -78,13 +78,7 @@ const createTransaction = catchAsync(async (req, res) => {
 		}
 	);
 
-	let grossAmount = 0;
-	validatedInput.order_item.forEach((v) => {
-		const fixedAmount = v.price * v.quantity;
-		grossAmount += fixedAmount;
-	});
 	// CHARGE WITH PAYMENT GATEWAY
-
 	const userData = await UserModel.findOne({
 		where: {
 			id: accessData.UID,
@@ -96,28 +90,19 @@ const createTransaction = catchAsync(async (req, res) => {
 		throw new Error("User not found");
 	}
 
-	let orderItemIds = [];
-	createdTransactionData.transaction_items.forEach((v) => {
-		orderItemIds.push(v.id);
-	});
-
-	const orderItemData = await OrderItemModel.findAll({
-		include: [ProductModel],
-		where: {
-			id: orderItemIds,
-			company_id: accessData.CID,
-		},
-	});
-
+	let grossAmount = 0;
 	let itemDetailData = [];
-	orderItemData.forEach((v) => {
+	createdTransactionData.transaction_items.forEach((v) => {
 		itemDetailData.push({
-			id: v.product_id,
+			id: v.id,
 			price: v.price,
 			quantity: v.quantity,
-			name: v.Product.name,
+			name: v.product_name,
 		});
+		const fixedAmount = v.price * v.quantity;
+		grossAmount += fixedAmount;
 	});
+
 	let parameter = {
 		transaction_details: {
 			order_id: createdTransactionData.transaction.transaction_identity,
@@ -184,8 +169,6 @@ const midtransCallbackController = catchAsync(async (req, res) => {
 		`Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}`
 	);
 
-	// Sample transactionStatus handling logic
-
 	if (transactionStatus == "capture") {
 		if (fraudStatus == "accept") {
 			// TODO set transaction status on your database to 'success'
@@ -193,7 +176,7 @@ const midtransCallbackController = catchAsync(async (req, res) => {
 			const updateData = await OrderTransactionModel.update(
 				{
 					payment_status: "SUCCESS",
-					stand_status: "READY",
+					stand_status: "WAITING_CONFIRMATION",
 				},
 				{
 					where: {
@@ -206,10 +189,10 @@ const midtransCallbackController = catchAsync(async (req, res) => {
 	} else if (transactionStatus == "settlement") {
 		// TODO set transaction status on your database to 'success'
 		// and response with 200 OK
-		const updateData = await OrderTransactionModel.update(
+		await OrderTransactionModel.update(
 			{
 				payment_status: "SUCCESS",
-				stand_status: "READY",
+				stand_status: "WAITING_CONFIRMATION",
 			},
 			{
 				where: {
@@ -225,7 +208,7 @@ const midtransCallbackController = catchAsync(async (req, res) => {
 	) {
 		// TODO set transaction status on your database to 'failure'
 		// and response with 200 OK
-		const updateData = await OrderTransactionModel.update(
+		await OrderTransactionModel.update(
 			{
 				payment_status: "FAILURE",
 			},
@@ -239,7 +222,7 @@ const midtransCallbackController = catchAsync(async (req, res) => {
 	} else if (transactionStatus == "pending") {
 		// TODO set transaction status on your database to 'pending' / waiting payment
 		// and response with 200 OK
-		const updateData = await OrderTransactionModel.update(
+		await OrderTransactionModel.update(
 			{
 				payment_status: "PENDING",
 			},
