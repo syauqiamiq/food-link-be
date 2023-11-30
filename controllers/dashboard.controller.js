@@ -85,7 +85,6 @@ const listMyTranscation = catchAsync(async (req, res) => {
 			StandModel,
 			{
 				model: OrderItemModel,
-				include: [ProductModel],
 				required: true,
 			},
 		],

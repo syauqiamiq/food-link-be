@@ -4,6 +4,14 @@ const loginInput = yup.object().shape({
 	email: yup.string().email().required(),
 	password: yup.string().required(),
 });
+const verifyAuthTokenOtpInput = yup.object().shape({
+	token: yup.string().required(),
+});
+
+const authorizeUserInput = yup.object().shape({
+	token: yup.string().required(),
+	otp: yup.number().required(),
+});
 
 const registerInput = yup.object().shape({
 	email: yup.string().email().required(),
@@ -28,4 +36,6 @@ module.exports = {
 	loginInput,
 	registerInput,
 	registerResponse,
+	verifyAuthTokenOtpInput,
+	authorizeUserInput,
 };

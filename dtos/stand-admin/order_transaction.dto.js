@@ -1,5 +1,18 @@
 const yup = require("yup");
 
+const listOrderItemResponse = (data) => {
+	let res = [];
+	data.forEach((v) => {
+		res.push({
+			id: v.id,
+			product_name: v.product_name,
+			price: v.price,
+			quantity: v.quantity,
+		});
+	});
+	return res;
+};
+
 const listOrderTransactionResponse = (data) => {
 	let res = [];
 	data.forEach((v) => {
@@ -15,12 +28,10 @@ const listOrderTransactionResponse = (data) => {
 			},
 			user: {
 				full_name: v.User?.full_name,
+				contact_number: v.User?.contact_number,
 			},
-			order_item: {
-				product: v.Product,
-				quantity: v.OrderItem?.quantity,
-				price: v.OrderItem?.price,
-			},
+			order_item: listOrderItemResponse(v.OrderItems),
+			created_at: v.createdAt,
 		});
 	});
 	return res;
@@ -39,12 +50,10 @@ const singleOrderTransactionResponse = (data) => {
 		},
 		user: {
 			full_name: data.User?.full_name,
+			contact_number: data.User?.contact_number,
 		},
-		order_item: {
-			product: data.Product,
-			quantity: data.OrderItem?.quantity,
-			price: data.OrderItem?.price,
-		},
+		order_item: listOrderItemResponse(data.OrderItems),
+		created_at: data.createdAt,
 	};
 };
 
