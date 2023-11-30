@@ -19,7 +19,6 @@ const redisClient = require("../config/redis.config");
 
 const JWT_OTP_SECRET = process.env.JWT_OTP_SECRET;
 const JWT_SECRET = process.env.JWT_SECRET;
-const FE_BASE_URL = process.env.FRONT_END_BASE_URL;
 const UserModel = models.User;
 const CompanyModel = models.Company;
 
@@ -57,7 +56,6 @@ const loginController = catchAsync(async (req, res) => {
 		);
 
 		const base64token = Buffer.from(token).toString("base64");
-		const redirectUrl = `${FE_BASE_URL}/auth/verify/${base64token}`;
 
 		const redis = await redisClient();
 		// const otp = Math.floor(Math.random() * 99999);
@@ -73,7 +71,7 @@ const loginController = catchAsync(async (req, res) => {
 		res.status(httpStatus.OK).json(
 			succesResponse(
 				{
-					redirect_url: redirectUrl,
+					otp_access_key: base64token,
 				},
 				httpStatus["200_NAME"],
 				httpStatus.OK
