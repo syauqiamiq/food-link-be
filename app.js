@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const os = require("os");
 
 const { errorResponse } = require("./utils/api_formatter.util");
 const httpStatus = require("http-status");
@@ -29,6 +30,9 @@ app.use("/transaction", transactionRoutes);
 app.use("/app-admin", appAdminRoutes);
 app.use("/company-admin", companyAdminRoutes);
 app.use("/stand-admin", standAdminRoutes);
+app.use("/health-check", async (req, res) => {
+	res.json({ message: "Balancing Request", hostname: os.hostname() });
+});
 // Global error handler middleware
 app.use((err, req, res, next) => {
 	console.error(err);
