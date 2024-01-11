@@ -83,6 +83,7 @@ const loginController = catchAsync(async (req, res) => {
 			.json(errorResponse("Password not match", httpStatus.FORBIDDEN));
 	}
 });
+
 const checkAuthOtpTokenController = catchAsync(async (req, res) => {
 	await verifyAuthTokenOtpInput.validate(req.body, { abortEarly: false });
 	const { token } = req.body;
